@@ -974,15 +974,15 @@ import { Storage } from './Storage.js';
 		destroying = 0;
 		scores = [40, 100, 300, 1200];
 		colors = [
-			['crimson', 1, 0],
-			['dodgerblue', 2, 1],
-			['gold', 3, 2],
-			['green', 4, 3],
-			['darkorange', 5, 4],
-			['deeppink', 6, 5],
-			['darkturquoise', 7, 6],
-			['blueviolet', 8, 7],
-			['limegreen', 9, 8]
+			['crimson', 1, 0], // rgb(220, 20, 60)
+			['dodgerblue', 2, 1], // rgb(30, 144, 255)
+			['gold', 3, 2], // rgb(255, 215, 0)
+			['green', 4, 3], // rgb(0, 128, 0)
+			['darkorange', 5, 4], // rgb(255, 140, 0)
+			['deeppink', 6, 5], // rgb(255, 20, 147)
+			['darkturquoise', 7, 6], // rgb(0, 206, 209)
+			['blueviolet', 8, 7], // rgb(138, 43, 226)
+			['limegreen', 9, 8] // rgb(50, 205, 50)
 		];
 		direction = 'right';
 		mode = 'standard';
