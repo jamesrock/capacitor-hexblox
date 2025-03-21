@@ -1,0 +1,236 @@
+@font-face {
+	font-family: 'Poppins';
+	font-weight: 700;
+	font-style: normal;
+	src: url('../assets/fonts/Poppins-Bold.ttf');
+}
+
+@font-face {
+	font-family: 'Poppins';
+	font-weight: 900;
+	font-style: italic;
+	src: url('../assets/fonts/Poppins-BlackItalic.ttf');
+}
+
+:root {
+	--background: snow;
+	--foreground: rgb(125, 125, 125);
+
+	--toggle-width: 32px;
+	--toggle-height: 18px;
+	--toggle-padding: 2px;
+	--toggle-active-left: 16px;
+	--toggle-size: 14px;
+	--h1-size: 28px;
+	--h2-size: 16px;
+	--stat-size: 17px;
+	--game-over-size: 20px;
+	--smaller-size: 16px;
+	--body-size: 14px;
+	--controls-top-gap: 10px;
+	--controls-bottom-gap: 12px;
+}
+
+@media (min-width: 600px) {
+	
+	:root {
+		--toggle-width: 40px;
+		--toggle-height: 22px;
+		--toggle-padding: 2px;
+		--toggle-active-left: 20px;
+		--toggle-size: 18px;
+		--h1-size: 42px;
+		--h2-size: 16px;
+		--stat-size: 22px;
+		--game-over-size: 32px;
+		--smaller-size: 22px;
+		--body-size: 16px;
+		--controls-top-gap: 15px;
+		--controls-bottom-gap: 20px;
+	}
+	
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	-webkit-touch-callout: none;
+	-webkit-user-callout: none;
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-user-modify: none;
+	-webkit-highlight: none;
+	user-select: none;
+	touch-action: none;
+}
+
+html {
+	overflow: hidden;
+}
+
+body {
+	font-family: 'Poppins', sans-serif;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: var(--background);
+	color: var(--foreground);
+	height: 100svh;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	-webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+	background-image: radial-gradient(rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0));
+	transition: background-color 0.5s, color 0.5s;
+	font-size: var(--body-size);
+	line-height: 1.4;
+	font-weight: 700;
+}
+
+main {
+	max-width: 600px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 20px;
+	line-height: 1.2;
+	font-size: 18px;
+	color: black;
+}
+
+h1 {
+	font-size: var(--h1-size);
+	font-style: italic;
+	font-weight: 900;
+	margin-bottom: 10px;
+}
+
+h2 {
+	font-size: var(--h2-size);
+	font-weight: 700;
+}
+
+.game {
+	position: relative;
+	background-color: rgba(200, 200, 200, 0.25);
+}
+
+.game-canvas {
+	display: block;
+	padding: 2px;
+	pointer-events: none;
+}
+
+.tetris {
+	position: relative;
+	display: flex;
+	gap: 20px;
+	flex-direction: row-reverse;
+
+	&[data-direction="left"] {
+		flex-direction: row;
+	}
+	
+}
+
+.game-over {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	background-color: var(--glass);
+	backdrop-filter: blur(4px);
+	font-size: var(--game-over-size);
+	transition: background-color 0.5s;
+}
+
+.game-over[data-active="false"] {
+	display: none;
+}
+
+.smaller {
+	font-size: var(--smaller-size);
+}
+
+.controls {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.controls-top,
+.controls-bottom {
+	display: flex;
+	flex-direction: column;
+}
+
+.controls-top {
+	gap: var(--controls-top-gap);
+}
+
+.controls-bottom {
+	gap: var(--controls-bottom-gap);
+}
+
+.upnext {
+	padding: 10px;
+	border-radius: 2px;
+}
+
+.toggle {
+	line-height: 1;
+
+	label {
+		display: block;
+		margin-bottom: 7px;
+	}
+
+	input[type="checkbox"] {
+		position: relative;
+		appearance: none;
+		width: var(--toggle-width);
+		height: var(--toggle-height);
+		
+		&:before,
+		&:after {
+			content: '';
+			display: block;
+			box-sizing: border-box;
+		}
+
+		&:before {
+			width: 100%;
+			height: 100%;
+			background-color: var(--foreground);
+			border-radius: var(--toggle-height);
+		}
+
+		&:after {
+			width: var(--toggle-size);
+			height: var(--toggle-size);
+			border-radius: 100%;
+			background-color: var(--background);
+			position: absolute;
+			top: var(--toggle-padding);
+			left: var(--toggle-padding);
+			transition: background-color 0.5s;
+		}
+
+		&:checked:after {
+			left: var(--toggle-active-left);
+		}
+
+		&[data-variant="a"]:checked:after {
+			background-color: rgb(0, 240, 0);
+		}
+
+	}
+	
+}
+
+.stat {
+	font-size: var(--stat-size);
+}
