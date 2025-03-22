@@ -540,7 +540,7 @@ import { Storage } from './Storage.js';
 			// if(window.matchMedia('(min-width: 600px)').matches) {
 				// this.scale = scaler.inflate(45);
 				this.gap = scaler.inflate(2);
-				this.scale = scaler.inflate(Math.floor((window.innerWidth - (this.gap / 2)) / 10));
+				this.scale = scaler.inflate(Math.floor((window.innerWidth - (2 * 2)) / 10));
 			// };
 
 			this.node = createElement('div', 'tetris');
@@ -566,6 +566,8 @@ import { Storage } from './Storage.js';
 			this.canvas.height = this.inflate(this.height);
 			this.canvas.style.width = `${scaler.deflate(this.inflate(this.width))}px`;
 
+			this.upNext.appendTo(this.node);
+
 			this.node.appendChild(this.gameNode);
 			this.node.appendChild(this.controlsNode);
 
@@ -575,11 +577,11 @@ import { Storage } from './Storage.js';
 			this.gameNode.appendChild(this.canvas);
 			this.gameNode.appendChild(this.gameOverNode);
 
-			this.upNext.appendTo(this.controlsTopNode);
+			
 			this.controlsTopNode.appendChild(this.scoreNode);
 			this.controlsTopNode.appendChild(this.linesNode);
 			this.controlsTopNode.appendChild(this.levelNode);
-			this.controlsTopNode.appendChild(this.bestNode);
+			// this.controlsTopNode.appendChild(this.bestNode);
 
 			this.antiGravityToggle.appendTo(this.controlsBottomNode);
 			this.directionToggle.appendTo(this.controlsBottomNode);
