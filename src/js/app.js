@@ -1,3 +1,4 @@
+import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { testBricks } from './testBricks2.js';
 import { Rounder } from './Rounder.js';
@@ -1007,6 +1008,9 @@ import { Storage } from './Storage.js';
 		'ArrowRight': 'right'
 	},
 	isValidKey = (key, options) => (options.includes(key)),
+	platform = Capacitor.getPlatform(),
+	safeArea = (platform==='ios' ? 30 : 0),
+	nextUpTop = (safeArea + 20),
 	log = false,
 	tetris = window.tetris = new Tetris(),
 	touch,
@@ -1021,6 +1025,7 @@ import { Storage } from './Storage.js';
 	console.log('tetris', tetris);
 
 	root.style.setProperty('--gap', `${tetris.gap / 2}px`);
+	root.style.setProperty('--nextup-top', `${nextUpTop}px`);
 
 	document.addEventListener('keydown', function(e) {
 

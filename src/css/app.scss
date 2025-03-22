@@ -185,7 +185,7 @@ h2 {
 .upnext {
 	border-radius: 2px;
 	position: fixed;
-	top: 20px;
+	top: var(--nextup-top);
 	right: 20px;
 	opacity: 0.75;
 }
