@@ -539,7 +539,6 @@ import { Storage } from './Storage.js';
 			super();
 
 			const windowWidth = platform === 'ios' ? window.innerWidth : 500;
-			// const windowWidth = window.innerWidth;
 			
 			this.gap = scaler.inflate(2);
 			this.scale = scaler.inflate(Math.floor((windowWidth - (2 * 2)) / 10));
@@ -550,15 +549,12 @@ import { Storage } from './Storage.js';
 			this.scoreNode = createElement('div', 'stat');
 			this.linesNode = createElement('div', 'stat');
 			this.levelNode = createElement('div', 'stat');
-			this.bestNode = createElement('div', 'stat');
 			this.gameOverNode = createElement('div', 'game-over');
 			this.gameNode = createElement('div', 'game');
 			this.controlsNode = createElement('div', 'controls');
 			this.controlsTopNode = createElement('div', 'controls-top');
-			this.controlsBottomNode = createElement('div', 'controls-bottom');
 			this.upNext = new UpNext(this);
 			this.factory = new BrickFactory(this);
-			this.themeToggle = new Toggle('theme', 'b', 'L/D');
 			this.storage = new Storage('me.jameserock.hexblox');
 
 			this.canvas.width = this.inflate(this.width);
@@ -571,7 +567,6 @@ import { Storage } from './Storage.js';
 			this.node.appendChild(this.controlsNode);
 
 			this.controlsNode.appendChild(this.controlsTopNode);
-			this.controlsNode.appendChild(this.controlsBottomNode);
 
 			this.gameNode.appendChild(this.canvas);
 			this.gameNode.appendChild(this.gameOverNode);
@@ -579,15 +574,6 @@ import { Storage } from './Storage.js';
 			this.controlsTopNode.appendChild(this.scoreNode);
 			this.controlsTopNode.appendChild(this.linesNode);
 			this.controlsTopNode.appendChild(this.levelNode);
-			// this.controlsTopNode.appendChild(this.bestNode);
-
-			this.themeToggle.appendTo(this.controlsBottomNode);
-
-			const tetris = this;
-
-			this.themeToggle.addEventListener('change', function() {
-				tetris.setTheme(this.checked ? 'dark' : 'light');
-			}).dispatchEvent('change');
 
 			this.reset();
 			this.checkForBest();
@@ -829,8 +815,6 @@ import { Storage } from './Storage.js';
 				this.best = best;
 			};
 
-			this.updateBest();
-
 			return this;
 
 		};
@@ -880,13 +864,6 @@ import { Storage } from './Storage.js';
 			
 			this.best = value;
 			this.storage.set('best', this.best);
-			this.updateBest();
-			return this;
-
-		};
-		updateBest() {
-			
-			this.bestNode.innerHTML = `<h2>best</h2><p>${this.best}</p>`;
 			return this;
 
 		};
@@ -904,7 +881,14 @@ import { Storage } from './Storage.js';
 		showGameOverScreen() {
 
 			this.gameOverNode.setAttribute('data-active', true);
-			this.gameOverNode.innerHTML = `<div><h1>Game over!</h1><p>You scored ${this.score}</p><p class="smaller">Tap to try again.</p></div>`;
+			this.gameOverNode.innerHTML = `<div class="game-over-body">\
+				<h1>Game over!</h1>\
+				<div>\
+					<p>Score: ${this.score}</p>\
+					<p>Best: ${this.best}</p>\	
+				</div>\
+				<p class="smaller">Tap to try again.</p>\
+			</div>`;
 			this.gameOver = true;
 			
 			if(this.score > this.best) {
@@ -944,7 +928,7 @@ import { Storage } from './Storage.js';
 		};
 		animationFrame = null;
 		width = 10;
-		height = 19;
+		height = 18;
 		speed = 800;
 		bricks = [];
 		score = 0;
@@ -999,6 +983,9 @@ import { Storage } from './Storage.js';
 
 	if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
 		tetris.setTheme('dark');
+	}
+	else {
+		tetris.setTheme('light');
 	};
 
 	tetris.appendTo(body).render();
@@ -1011,8 +998,9 @@ import { Storage } from './Storage.js';
 	root.style.setProperty('--nextup-top', `${nextUpTop}px`);
 	root.style.setProperty('--alignment', platform==='ios' ? 'start' : 'center');
 	root.style.setProperty('--game-height', platform==='ios' ? '100%' : 'auto');
+	root.style.setProperty('--game-width', platform==='ios' ? '100%' : 'auto');
 	root.style.setProperty('--game-gap', platform==='ios' ? '0' : '20px');
-	root.style.setProperty('--game-top-padding', platform==='ios' ? `${safeArea + 10}px` : '0');
+	root.style.setProperty('--game-top-padding', platform==='ios' ? `${safeArea + 20}px` : '0');
 
 	document.addEventListener('keydown', function(e) {
 

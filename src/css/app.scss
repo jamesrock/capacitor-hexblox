@@ -28,7 +28,6 @@
 	--smaller-size: 16px;
 	--body-size: 14px;
 	--controls-top-gap: 50px;
-	--controls-bottom-gap: 12px;
 }
 
 @media (min-width: 600px) {
@@ -45,8 +44,7 @@
 		--game-over-size: 32px;
 		--smaller-size: 22px;
 		--body-size: 16px;
-		--controls-top-gap: 15px;
-		--controls-bottom-gap: 20px;
+		// --controls-top-gap: 15px;
 	}
 	
 }
@@ -103,7 +101,6 @@ h1 {
 	font-size: var(--h1-size);
 	font-style: italic;
 	font-weight: 900;
-	margin-bottom: 10px;
 }
 
 h2 {
@@ -126,8 +123,7 @@ h2 {
 
 .tetris {
 	position: relative;
-	// width: 100%;
-	// max-width: 750px;
+	width: var(--game-width);
 	height: var(--game-height);
 	display: flex;
 	flex-direction: column;
@@ -145,6 +141,13 @@ h2 {
 	backdrop-filter: blur(4px);
 	font-size: var(--game-over-size);
 	transition: background-color 0.5s;
+
+	.game-over-body {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
 }
 
 .game-over[data-active="false"] {
@@ -161,29 +164,22 @@ h2 {
 	align-items: center;
 	justify-content: center;
 	height: 100%;
-}
-
-.controls-top,
-.controls-bottom {
-	display: flex;
+	padding: 0 40px;
 }
 
 .controls-top {
+	display: flex;
 	gap: var(--controls-top-gap);
 	justify-content: space-between;
 	align-items: center;
-}
-
-.controls-bottom {
-	gap: var(--controls-bottom-gap);
-	display: none;
+	padding-bottom: 10px;
 }
 
 .upnext {
 	border-radius: 2px;
 	position: absolute;
 	top: var(--nextup-top);
-	right: 20px;
+	left: 20px;
 	opacity: 0.75;
 }
 
@@ -240,8 +236,6 @@ h2 {
 
 .stat {
 	font-size: var(--stat-size);
-	min-width: 100px;
 	display: flex;
 	flex-direction: column-reverse;
-	padding-bottom: 5px;
 }
