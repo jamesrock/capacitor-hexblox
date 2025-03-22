@@ -114,11 +114,12 @@ h2 {
 .game {
 	position: relative;
 	background-color: rgba(200, 200, 200, 0.25);
+	padding: var(--gap);
 }
 
 .game-canvas {
 	display: block;
-	padding: 2px;
+	// padding: 2px;
 	pointer-events: none;
 }
 

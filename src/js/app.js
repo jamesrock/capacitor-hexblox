@@ -539,8 +539,8 @@ import { Storage } from './Storage.js';
 
 			// if(window.matchMedia('(min-width: 600px)').matches) {
 				// this.scale = scaler.inflate(45);
-				this.scale = scaler.inflate(Math.floor(window.innerWidth / 10));
 				this.gap = scaler.inflate(2);
+				this.scale = scaler.inflate(Math.floor((window.innerWidth - (this.gap / 2)) / 10));
 			// };
 
 			this.node = createElement('div', 'tetris');
@@ -1017,6 +1017,8 @@ import { Storage } from './Storage.js';
 	SplashScreen.hide();
 
 	console.log('tetris', tetris);
+
+	root.style.setProperty('--gap', `${tetris.gap / 2}px`);
 
 	document.addEventListener('keydown', function(e) {
 
