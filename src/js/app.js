@@ -538,7 +538,8 @@ import { Storage } from './Storage.js';
 
 			super();
 
-			const windowWidth = window.innerWidth > 500 ? 500 : window.innerWidth;
+			const windowWidth = platform === 'ios' ? window.innerWidth : 500;
+			// const windowWidth = window.innerWidth;
 			
 			this.gap = scaler.inflate(2);
 			this.scale = scaler.inflate(Math.floor((windowWidth - (2 * 2)) / 10));
@@ -985,8 +986,8 @@ import { Storage } from './Storage.js';
 		'ArrowRight': 'right'
 	},
 	isValidKey = (key, options) => (options.includes(key)),
-	// platform = Capacitor.getPlatform(),
-	platform = 'ios',
+	platform = Capacitor.getPlatform(),
+	// platform = 'ios',
 	safeArea = (platform==='ios' ? 50 : 0),
 	nextUpTop = (safeArea + 20),
 	log = false,
