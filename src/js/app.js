@@ -985,8 +985,8 @@ import { Storage } from './Storage.js';
 		'ArrowRight': 'right'
 	},
 	isValidKey = (key, options) => (options.includes(key)),
-	// platform = Capacitor.getPlatform(),
-	platform = 'ios',
+	platform = Capacitor.getPlatform(),
+	// platform = 'ios',
 	safeArea = (platform==='ios' ? 50 : 0),
 	nextUpTop = (safeArea + 20),
 	log = false,
