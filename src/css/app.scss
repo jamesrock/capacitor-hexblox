@@ -127,11 +127,11 @@ h2 {
 .tetris {
 	position: relative;
 	width: 100%;
+	max-width: 500px;
 	height: var(--game-height);
 	display: flex;
 	flex-direction: column;
-	max-width: 500px;
-	gap: 20px;
+	gap: var(--game-gap);
 }
 
 .game-over {

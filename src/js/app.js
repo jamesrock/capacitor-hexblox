@@ -985,7 +985,8 @@ import { Storage } from './Storage.js';
 		'ArrowRight': 'right'
 	},
 	isValidKey = (key, options) => (options.includes(key)),
-	platform = Capacitor.getPlatform(),
+	// platform = Capacitor.getPlatform(),
+	platform = 'ios',
 	safeArea = (platform==='ios' ? 50 : 0),
 	nextUpTop = (safeArea + 20),
 	log = false,
@@ -1005,6 +1006,7 @@ import { Storage } from './Storage.js';
 	root.style.setProperty('--nextup-top', `${nextUpTop}px`);
 	root.style.setProperty('--alignment', platform==='ios' ? 'start' : 'center');
 	root.style.setProperty('--game-height', platform==='ios' ? '100%' : 'auto');
+	root.style.setProperty('--game-gap', platform==='ios' ? '0' : '20px');
 
 	document.addEventListener('keydown', function(e) {
 
