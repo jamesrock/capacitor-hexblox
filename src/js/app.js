@@ -659,9 +659,9 @@ import { Storage } from './Storage.js';
 			this.gameOverNode.setAttribute('data-active', false);
 
 			this.bricks = [
-				new BottomBarrierBrick(this, 0, 20).init(),
+				new BottomBarrierBrick(this, 0, this.height).init(),
 				new SideBarrierBrick(this, -1, 0).init(),
-				new SideBarrierBrick(this, 10, 0).init()
+				new SideBarrierBrick(this, this.width, 0).init()
 			];
 
 			this.score = 0;
