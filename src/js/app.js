@@ -996,6 +996,10 @@ import { Storage } from './Storage.js';
 	yMovement = 0,
 	rounder = new Rounder(40);
 
+	if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
+		tetris.setTheme('dark');
+	};
+
 	tetris.appendTo(body).render();
 
 	SplashScreen.hide();
