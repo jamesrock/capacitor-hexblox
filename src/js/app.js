@@ -538,11 +538,10 @@ import { Storage } from './Storage.js';
 
 			super();
 
-			// if(window.matchMedia('(min-width: 600px)').matches) {
-				// this.scale = scaler.inflate(45);
-				this.gap = scaler.inflate(2);
-				this.scale = scaler.inflate(Math.floor((window.innerWidth - (2 * 2)) / 10));
-			// };
+			const windowWidth = window.innerWidth > 500 ? 500 : window.innerWidth;
+			
+			this.gap = scaler.inflate(2);
+			this.scale = scaler.inflate(Math.floor((windowWidth - (2 * 2)) / 10));
 
 			this.node = createElement('div', 'tetris');
 			this.canvas = createElement('canvas', 'game-canvas');
@@ -558,10 +557,8 @@ import { Storage } from './Storage.js';
 			this.controlsBottomNode = createElement('div', 'controls-bottom');
 			this.upNext = new UpNext(this);
 			this.factory = new BrickFactory(this);
-			this.antiGravityToggle = new Toggle('mode', 'a', 'AG');
-			this.directionToggle = new Toggle('direction', 'b', 'R/L');
 			this.themeToggle = new Toggle('theme', 'b', 'L/D');
-			this.storage = new Storage('tetris.jamesrock.me');
+			this.storage = new Storage('me.jameserock.hexblox');
 
 			this.canvas.width = this.inflate(this.width);
 			this.canvas.height = this.inflate(this.height);
@@ -577,28 +574,15 @@ import { Storage } from './Storage.js';
 
 			this.gameNode.appendChild(this.canvas);
 			this.gameNode.appendChild(this.gameOverNode);
-
 			
 			this.controlsTopNode.appendChild(this.scoreNode);
 			this.controlsTopNode.appendChild(this.linesNode);
 			this.controlsTopNode.appendChild(this.levelNode);
 			// this.controlsTopNode.appendChild(this.bestNode);
 
-			this.antiGravityToggle.appendTo(this.controlsBottomNode);
-			this.directionToggle.appendTo(this.controlsBottomNode);
 			this.themeToggle.appendTo(this.controlsBottomNode);
 
 			const tetris = this;
-
-			this.directionToggle.addEventListener('change', function() {
-				tetris.setDirection(this.checked ? 'left' : 'right');
-			}).dispatchEvent('change');
-
-			this.antiGravityToggle.inputNode.checked = true;
-			
-			this.antiGravityToggle.addEventListener('change', function() {
-				tetris.setMode(this.checked ? 'anti-gravity' : 'standard');
-			}).dispatchEvent('change');
 
 			this.themeToggle.addEventListener('change', function() {
 				tetris.setTheme(this.checked ? 'dark' : 'light');
@@ -929,13 +913,6 @@ import { Storage } from './Storage.js';
 			return this;
 
 		};
-		setDirection(direction) {
-
-			this.direction = direction;
-			this.node.setAttribute('data-direction', this.direction);
-			return this;
-
-		};
 		setMode(mode) {
 
 			this.mode = mode;
@@ -1009,7 +986,7 @@ import { Storage } from './Storage.js';
 	},
 	isValidKey = (key, options) => (options.includes(key)),
 	platform = Capacitor.getPlatform(),
-	safeArea = (platform==='ios' ? 30 : 0),
+	safeArea = (platform==='ios' ? 50 : 0),
 	nextUpTop = (safeArea + 20),
 	log = false,
 	tetris = window.tetris = new Tetris(),
@@ -1026,6 +1003,8 @@ import { Storage } from './Storage.js';
 
 	root.style.setProperty('--gap', `${tetris.gap / 2}px`);
 	root.style.setProperty('--nextup-top', `${nextUpTop}px`);
+	root.style.setProperty('--alignment', platform==='ios' ? 'start' : 'center');
+	root.style.setProperty('--game-height', platform==='ios' ? '100%' : 'auto');
 
 	document.addEventListener('keydown', function(e) {
 
