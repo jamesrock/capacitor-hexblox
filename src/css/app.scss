@@ -84,6 +84,9 @@ body {
 	font-size: var(--body-size);
 	line-height: 1.4;
 	font-weight: 700;
+	&.wordy {
+		align-items: center;
+	}
 }
 
 main {
