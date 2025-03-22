@@ -114,7 +114,7 @@ h2 {
 .game {
 	position: relative;
 	background-color: rgba(200, 200, 200, 0.25);
-	padding: var(--gap) 0;
+	padding: var(--game-top-padding) 0 var(--gap);
 	display: flex;
 	justify-content: center;
 }

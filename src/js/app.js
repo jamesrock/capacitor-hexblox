@@ -943,7 +943,7 @@ import { Storage } from './Storage.js';
 		};
 		animationFrame = null;
 		width = 10;
-		height = 20;
+		height = 19;
 		speed = 800;
 		bricks = [];
 		score = 0;
@@ -985,8 +985,8 @@ import { Storage } from './Storage.js';
 		'ArrowRight': 'right'
 	},
 	isValidKey = (key, options) => (options.includes(key)),
-	platform = Capacitor.getPlatform(),
-	// platform = 'ios',
+	// platform = Capacitor.getPlatform(),
+	platform = 'ios',
 	safeArea = (platform==='ios' ? 50 : 0),
 	nextUpTop = (safeArea + 20),
 	log = false,
@@ -1011,6 +1011,7 @@ import { Storage } from './Storage.js';
 	root.style.setProperty('--alignment', platform==='ios' ? 'start' : 'center');
 	root.style.setProperty('--game-height', platform==='ios' ? '100%' : 'auto');
 	root.style.setProperty('--game-gap', platform==='ios' ? '0' : '20px');
+	root.style.setProperty('--game-top-padding', platform==='ios' ? `${safeArea + 10}px` : '0');
 
 	document.addEventListener('keydown', function(e) {
 
