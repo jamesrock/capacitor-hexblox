@@ -1,14 +1,14 @@
 import '/css/app.css';
 import { Capacitor } from '@capacitor/core';
-import { 
+import {
 	DisplayObject,
 	GameBase,
-	Rounder,
 	Scaler,
 	setDocumentHeight,
-	createNode, 
+	addDragListeners,
+	createNode,
 	makeArray,
-	formatNumber, 
+	formatNumber,
 	limit,
 	isValidKey
 } from '@jamesrock/rockjs';
@@ -42,17 +42,17 @@ class UpNext extends DisplayObject {
 		super();
 
 		this.t = t;
-		
+
 		this.node = createNode('canvas', 'upnext');
 		this.ctx = this.node.getContext('2d');
-		
+
 		this.node.width = this.t.inflate(this.size);
 		this.node.height = this.t.inflate(this.size);
 		this.node.style.width = `${scaler.deflate(this.t.inflate(this.size)) * 0.5}px`;
 
 	};
 	renderBrick(brick) {
-		
+
 		this.node.width = this.t.inflate(this.size);
 		brick.render(this.ctx);
 		return this;
@@ -88,7 +88,7 @@ class HexBlox extends GameBase {
 
 		this.boardNode.appendChild(this.canvas);
 		this.boardNode.appendChild(this.gameOverNode);
-		
+
 		this.statsTopNode.appendChild(this.scoreNode);
 		this.statsTopNode.appendChild(this.linesNode);
 		this.statsTopNode.appendChild(this.levelNode);
@@ -99,7 +99,7 @@ class HexBlox extends GameBase {
 
 	};
 	autoMove() {
-		
+
 		this.autoMoveTimer = setTimeout(() => {
 			if(this.mode === 'standard') {
 				this.move('down');
@@ -108,12 +108,12 @@ class HexBlox extends GameBase {
 				this.autoMove();
 			};
 		}, (1000 - (35 * this.level)));
-		
+
 		return this;
 
 	};
 	resetAutoMove() {
-		
+
 		clearTimeout(this.autoMoveTimer);
 		this.autoMove();
 		return this;
@@ -142,7 +142,7 @@ class HexBlox extends GameBase {
 
 	};
 	stop() {
-		
+
 		cancelAnimationFrame(this.animationFrame);
 		return this;
 
@@ -169,7 +169,7 @@ class HexBlox extends GameBase {
 
 	};
 	rotate() {
-		
+
 		this.bricks.forEach((brick) => {
 			brick.rotate();
 		});
@@ -178,7 +178,7 @@ class HexBlox extends GameBase {
 
 	};
 	move(direction) {
-		
+
 		this.bricks.forEach((brick) => {
 			brick.move(direction);
 		});
@@ -187,17 +187,17 @@ class HexBlox extends GameBase {
 
 	};
 	getMatrix() {
-		
+
 		return this.bricks.flatMap((brick) => brick.getMatrix());
 
 	};
 	getYMatrix() {
-		
+
 		return this.bricks.flatMap((brick) => brick.getYMatrix());
 
 	};
 	getStaticBlocks() {
-		
+
 		return this.bricks.flatMap((brick) => brick.getStaticBlocks());
 
 	};
@@ -217,7 +217,7 @@ class HexBlox extends GameBase {
 			const count = 6;
 
 			makeArray(count).forEach((a, i) => {
-				
+
 				setTimeout(() => {
 
 					blocks.forEach((block) => {
@@ -278,7 +278,7 @@ class HexBlox extends GameBase {
 			this.destroying -= 1;
 
 			if(updateScore) {
-				
+
 				this.score += (this.scores[fullLines.length] * (this.level + 1));
 
 			};
@@ -319,7 +319,7 @@ class HexBlox extends GameBase {
 
 	};
 	checkForEmptyBoard() {
-		
+
 		if(this.getYMatrix().length===0) {
 			this.score = (this.score * 2);
 		};
@@ -343,13 +343,13 @@ class HexBlox extends GameBase {
 
 	};
 	updateLevel() {
-		
+
 		this.levelNode.innerHTML = `<h2>level</h2><p>${this.level}</p>`;
 		return this;
 
 	};
 	updateStats() {
-		
+
 		this.updateLines();
 		this.updateScore();
 		this.updateLevel();
@@ -357,7 +357,7 @@ class HexBlox extends GameBase {
 
 	};
 	inflate(value) {
-		
+
 		return value * this.scale;
 
 	};
@@ -368,7 +368,7 @@ class HexBlox extends GameBase {
 
 	};
 	setTheme(theme) {
-		
+
 		this.theme = theme;
 		return this;
 
@@ -394,7 +394,7 @@ class HexBlox extends GameBase {
 	theme = 'light';
 };
 
-const 
+const
 body = document.body,
 root = document.documentElement,
 resetKeys = ['Space'],
@@ -409,15 +409,10 @@ platform = Capacitor.getPlatform(),
 isApp = window.navigator.standalone || platform==='ios',
 tetris = window.tetris = new HexBlox(),
 // makers = new BrickMakers(),
-rounder = new Rounder(40),
 prevent = () => keydown && tetris.bricks.length > brickCount;
 
-let
-xMovement = 0,
-yMovement = 0,
-touch = null,
-keydown = false,
-brickCount = tetris.bricks.length;
+let keydown = false;
+let brickCount = tetris.bricks.length;
 
 // tetris.setTheme(isDarkMode() ? 'dark' : 'light');
 
@@ -429,7 +424,7 @@ console.log('tetris', tetris);
 root.style.setProperty('--game-top-padding', isApp ? '30px' : '0');
 
 document.addEventListener('keyup', () => {
-	
+
 	brickCount = tetris.bricks.length;
 	keydown = false;
 
@@ -458,7 +453,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 document.addEventListener('click', () => {
-	
+
 	if(tetris.gameOver) {
 		tetris.reset();
 	}
@@ -468,39 +463,14 @@ document.addEventListener('click', () => {
 
 });
 
+addDragListeners(document, 40);
+
 document.addEventListener('touchstart', (e) => {
-	
-	touch = e.touches[0];
-	xMovement = 0;
-	yMovement = 0;
+
 	brickCount = tetris.bricks.length;
 	keydown = true;
 
 	e.preventDefault();
-
-});
-
-document.addEventListener('touchmove', function(e) {
-
-	if(prevent()) {
-		return;
-	};
-	
-	const {clientX: originalClientX, clientY: originalClientY} = touch;
-	const {clientX, clientY} = e.touches[0];
-	const x = rounder.round(clientX - originalClientX);
-	const y = rounder.round(clientY - originalClientY);
-
-	if(x !== xMovement) {
-		document.dispatchEvent(new Event(x > xMovement ? 'drag-right' : 'drag-left'));
-	};
-
-	if(y !== yMovement) {
-		document.dispatchEvent(new Event(y > yMovement ? 'drag-down' : 'drag-up'));
-	};
-
-	xMovement = x;
-	yMovement = y;
 
 });
 
@@ -511,19 +481,31 @@ document.addEventListener('touchend', () => {
 });
 
 document.addEventListener('drag-down', () => {
-	
+
+  if(prevent()) {
+		return;
+	};
+
 	tetris.move('down');
 
 });
 
 document.addEventListener('drag-right', () => {
-	
+
+  if(prevent()) {
+		return;
+	};
+
 	tetris.move('right');
 
 });
 
 document.addEventListener('drag-left', () => {
-	
+
+  if(prevent()) {
+		return;
+	};
+
 	tetris.move('left');
 
 });
@@ -532,7 +514,7 @@ document.addEventListener('visibilitychange', () => {
 
 	if(document.hidden) {
 		tetris.stop();
-	} 
+	}
 	else {
 		tetris.render();
 	};
